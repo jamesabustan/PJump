@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isGoingRight = true
         rightTimerId = setInterval(function(){
             if(pjLeftSpace <= 340){
-                pjLeftSpace += 50
+                pjLeftSpace += 5
                 pj.style.left = pjLeftSpace + 'px'
             } else moveLeft()
         },30)
