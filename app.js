@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let upTimerId 
     let downTimerId
 
-    createPJ = () => {
+    function createPJ() {
         grid.appendChild(pj)
         pj.classList.add('pj')
+        pjLeftSpace = platforms[0].left
         pj.style.left = pjLeftSpace + 'px'
         pj.style.bottom = pjBottomSpace + 'px'
     }
@@ -81,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function start(){
         if (!isGameOver){
-            createPJ()
             createPlatforms()
+            createPJ()
             setInterval(movePlatforms,30)
             jump()
         }
