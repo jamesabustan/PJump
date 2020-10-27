@@ -108,6 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function gameOver() {
         console.log('game over')
         isGameOver = true
+        while (grid.firstChild){
+            grid.removeChild(grid.firstChild)
+        }
+        grid.innerHTML = score
         clearInterval(upTimerId)
         clearInterval(downTimerId)
         clearInterval(leftTimerId)
