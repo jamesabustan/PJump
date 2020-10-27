@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (e.key === "ArrowRight"){
             moveRight()
         } else if (e.key === "ArrowUp"){
-            // moveUp()
+            moveStraight()
         }
     }
 
@@ -138,6 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 pj.style.left = pjLeftSpace + 'px'
             } else moveLeft()
         },30)
+    }
+
+    function moveStraight(){
+        isGoingLeft = false
+        isGoingRight = false
+        clearInterval(rightTimerId)
+        clearInterval(leftTimerId)
     }
 
     function start(){
