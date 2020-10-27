@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let platforms = []
     let upTimerId 
     let downTimerId
+    let isJumping = true
 
     function createPJ() {
         grid.appendChild(pj)
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function jump() {
         clearInterval(downTimerId)
+        isJumping = true
         upTimerId = setInterval(function () {
             pjBottomSpace += 20
             pj.style.bottom = pjBottomSpace + 'px'
@@ -64,12 +66,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function fall() {
         clearInterval(upTimerId)
+        isJumping = false
         downTimerId = setInterval(function () {
             pjBottomSpace -= 5
             pj.style.bottom = pjBottomSpace + 'px'
             if (pjBottomSpace <= 0){
                 gameOver()
             }
+            platforms.forEach(platform => {
+                if( 
+                (pjBottomSpace >= platform.bottom) && 
+                (pjBottomSpace <= platform.bottom + 15) &&
+                ((pjLeftSpace + 60 ) >= platform.left) &&
+                (pjLeftSpace <= (platform.left + 85)) &&
+                !isJumping
+                ){
+                    console.log('landed')
+                    jump()
+                }
+            })
         },30)
     }
 
