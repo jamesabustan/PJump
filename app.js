@@ -3,13 +3,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
     const pj = document.createElement('div')
     let pjLeftSpace = 50
-    let pjBottomSpace = 150
+    let startPoint = 150
+    let pjBottomSpace = startPoint
     let isGameOver = false
     let platformCount = 5
     let platforms = []
     let upTimerId 
     let downTimerId
     let isJumping = true
+    let isGoingLeft = false
+    let isGoingRight = false
+    let leftTimerId
+    let rightTimerId
+    
 
     function createPJ() {
         grid.appendChild(pj)
@@ -58,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         upTimerId = setInterval(function () {
             pjBottomSpace += 20
             pj.style.bottom = pjBottomSpace + 'px'
-            if (pjBottomSpace > 350){
+            if (pjBottomSpace > startPoint + 200){
                 fall()
             }
         },30)
@@ -82,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 !isJumping
                 ){
                     console.log('landed')
+                    startPoint = pjBottomSpace
                     jump()
                 }
             })
@@ -95,14 +102,42 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(downTimerId)
     }
 
-    function control() {
+    function control(e) {
         if (e.key === "ArrowLeft"){
-            //move left
+            moveLeft()
         } else if (e.key === "ArrowRight"){
-            //move right
+            moveRight()
         } else if (e.key === "ArrowUp"){
-            //move straight
+            // moveUp()
         }
+    }
+
+    function moveLeft() {
+        if(isGoingRight){
+            clearInterval(rightTimerId)
+            isGoingRight = false
+        }
+        isGoingLeft = true
+        leftTimerId = setInterval(function() {
+            if (pjLeftSpace >= 0){
+                pjLeftSpace -=5
+                pj.style.left = pjLeftSpace + 'px'
+            } else moveRight()
+        },30)
+    }
+
+    function moveRight() {
+        if(isGoingLeft){
+            clearInterval(leftTimerId)
+            isGoingLeft = false
+        }
+        isGoingRight = true
+        rightTimerId = setInterval(function(){
+            if(pjLeftSpace <= 340){
+                pjLeftSpace += 50
+                pj.style.left = pjLeftSpace + 'px'
+            } else moveLeft()
+        },30)
     }
 
     function start(){
@@ -111,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             createPJ()
             setInterval(movePlatforms,30)
             jump()
+            document.addEventListener('keyup',control)
         }
     }
     //attach to button
