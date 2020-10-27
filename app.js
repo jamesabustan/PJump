@@ -54,6 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 platform.bottom -= 4
                 let visual = platform.visual
                 visual.style.bottom = platform.bottom + 'px'
+
+                if (platform.bottom < 10){
+                    let firstPlatform = platforms[0].visual
+                    firstPlatform.classList.remove('platform')
+                    platforms.shift()
+                    console.log(platforms)
+                }
             })
         }
     }
